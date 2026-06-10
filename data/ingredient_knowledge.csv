@@ -1,0 +1,230 @@
+ingredient,function,category,sensitive_score,oily_score,dry_score,combination_score,normal_score,risk_level,benefits,concerns
+Glycerin,Humectant,Humectant,10,8,10,9,9,Low,Hydration|Moisture Retention|Barrier Repair,None
+Hyaluronic Acid,Humectant,Humectant,10,9,10,10,10,Low,Hydration|Moisture Retention|Skin Recovery,None
+Sodium Hyaluronate,Humectant,Humectant,10,9,10,10,10,Low,Hydration|Moisture Retention,None
+Sodium PCA,Humectant,Humectant,9,8,10,9,9,Low,Hydration|Moisture Retention,None
+Urea,Humectant,Humectant,6,7,10,8,8,Low,Hydration|Exfoliation|Barrier Repair,Irritation Risk
+Betaine,Humectant,Humectant,10,8,9,9,9,Low,Hydration|Soothing,None
+Panthenol,Soothing,Soothing Agent,10,8,10,9,9,Low,Soothing|Hydration|Skin Recovery|Barrier Repair,None
+Allantoin,Soothing,Soothing Agent,10,8,9,9,9,Low,Soothing|Skin Recovery|Redness Reduction,None
+Beta Glucan,Soothing,Soothing Agent,10,8,10,9,9,Low,Soothing|Anti-Inflammatory|Barrier Repair|Hydration,None
+Madecassoside,Soothing,Soothing Agent,10,8,9,9,9,Low,Soothing|Anti-Inflammatory|Skin Recovery|Redness Reduction,None
+Asiaticoside,Soothing,Soothing Agent,9,7,9,8,9,Low,Soothing|Anti-Inflammatory|Skin Recovery,None
+Bisabolol,Soothing,Soothing Agent,10,7,9,8,9,Low,Soothing|Anti-Inflammatory|Redness Reduction,None
+Ceramide NP,Barrier Repair,Ceramide,10,8,10,9,9,Low,Barrier Repair|Hydration,None
+Ceramide AP,Barrier Repair,Ceramide,10,8,10,9,9,Low,Barrier Repair|Hydration,None
+Ceramide EOP,Barrier Repair,Ceramide,10,8,10,9,9,Low,Barrier Repair|Hydration,None
+Ceramide NS,Barrier Repair,Ceramide,10,7,10,9,9,Low,Barrier Repair|Hydration,None
+Ceramide AS,Barrier Repair,Ceramide,10,7,10,9,9,Low,Barrier Repair|Hydration,None
+Phytosphingosine,Barrier Repair,Ceramide,9,8,9,9,9,Low,Barrier Repair|Anti-Inflammatory,None
+Sphingolipids,Barrier Repair,Ceramide,9,7,9,8,9,Low,Barrier Repair|Hydration,None
+Squalane,Emollient,Emollient,10,7,10,8,9,Low,Hydration|Barrier Repair|Antioxidant,None
+Caprylic/Capric Triglyceride,Emollient,Emollient,9,7,9,8,9,Low,Hydration|Barrier Repair,None
+Jojoba Oil,Emollient,Emollient,8,8,9,8,9,Low,Hydration|Oil Control|Barrier Repair,None
+Rosehip Oil,Emollient,Emollient,7,6,9,7,8,Low,Anti-Aging|Brightening|Hydration,Sensitivity Trigger
+Argan Oil,Emollient,Emollient,8,7,9,8,9,Low,Hydration|Antioxidant|Barrier Repair,None
+Marula Oil,Emollient,Emollient,8,6,9,7,8,Low,Hydration|Antioxidant,None
+Sea Buckthorn Oil,Emollient,Emollient,7,5,9,6,8,Moderate,Hydration|Antioxidant|Brightening,Sensitivity Trigger
+Bakuchiol,Anti-Aging,Emollient,8,8,8,8,9,Low,Anti-Aging|Antioxidant|Brightening,None
+Hemp Seed Oil,Emollient,Emollient,8,8,9,8,9,Low,Hydration|Anti-Inflammatory|Oil Control,None
+Meadowfoam Seed Oil,Emollient,Emollient,9,7,9,8,9,Low,Hydration|Barrier Repair|Moisture Retention,None
+Dimethicone,Occlusive,Occlusive,9,6,9,7,8,Low,Barrier Repair|Moisture Retention|Soothing,None
+Petrolatum,Occlusive,Occlusive,9,3,10,5,7,Low,Barrier Repair|Moisture Retention|Skin Recovery,Comedogenic Risk
+Mineral Oil,Occlusive,Occlusive,8,3,9,5,7,Low,Barrier Repair|Moisture Retention,Comedogenic Risk
+Cyclomethicone,Occlusive,Occlusive,8,7,7,7,8,Low,Barrier Repair|Moisture Retention,None
+Beeswax,Occlusive,Occlusive,7,4,8,6,7,Low,Barrier Repair|Moisture Retention,Comedogenic Risk
+Shea Butter,Emollient,Emollient,8,5,10,6,8,Low,Hydration|Barrier Repair|Soothing,Comedogenic Risk
+Cocoa Butter,Emollient,Emollient,6,4,9,5,7,Low,Hydration|Barrier Repair,Comedogenic Risk
+Mango Butter,Emollient,Emollient,8,5,9,6,8,Low,Hydration|Barrier Repair,Comedogenic Risk
+Aloe Vera,Soothing,Botanical Extract,10,9,8,9,9,Low,Soothing|Hydration|Anti-Inflammatory|Redness Reduction,None
+Centella Asiatica Extract,Soothing,Botanical Extract,10,8,9,9,9,Low,Soothing|Anti-Inflammatory|Skin Recovery|Barrier Repair,None
+Green Tea Extract,Antioxidant,Botanical Extract,9,9,8,9,9,Low,Antioxidant|Anti-Inflammatory|Oil Control,None
+Licorice Root Extract,Brightening,Botanical Extract,8,8,8,8,9,Low,Brightening|Pigmentation Reduction|Anti-Inflammatory,None
+Chamomile Extract,Soothing,Botanical Extract,10,7,9,8,9,Low,Soothing|Anti-Inflammatory|Redness Reduction,None
+Oat Extract,Soothing,Botanical Extract,10,7,9,9,9,Low,Soothing|Anti-Inflammatory|Barrier Repair,None
+Calendula Extract,Soothing,Botanical Extract,9,7,9,8,9,Low,Soothing|Anti-Inflammatory|Skin Recovery,None
+Sea Kelp Extract,Humectant,Botanical Extract,9,8,9,9,9,Low,Hydration|Antioxidant|Barrier Repair,None
+Mushroom Extract,Antioxidant,Botanical Extract,9,8,9,9,9,Low,Antioxidant|Brightening|Hydration,None
+White Willow Bark Extract,Exfoliant,Botanical Extract,4,8,5,7,7,Moderate,Exfoliation|Acne Support|Oil Control,Irritation Risk|Sensitivity Trigger
+Turmeric Extract,Anti-Inflammatory,Botanical Extract,7,8,7,8,8,Low,Anti-Inflammatory|Brightening|Antioxidant,Sensitivity Trigger
+Pomegranate Extract,Antioxidant,Botanical Extract,8,8,8,8,9,Low,Antioxidant|Anti-Aging|Brightening,None
+Rosemary Extract,Antioxidant,Botanical Extract,6,7,7,7,8,Moderate,Antioxidant|Oil Control,Sensitivity Trigger|Irritation Risk
+Niacinamide,Brightening,Active,8,10,8,9,9,Low,Brightening|Oil Control|Barrier Repair|Pore Care|Anti-Aging|Pigmentation Reduction,None
+Retinol,Cell Turnover,Active,4,8,6,7,7,Moderate,Anti-Aging|Skin Recovery|Brightening,Irritation Risk|Dryness Risk|Photosensitivity
+Retinal,Cell Turnover,Active,3,8,5,6,7,Moderate,Anti-Aging|Skin Recovery|Brightening,Irritation Risk|Dryness Risk|Photosensitivity
+Retinaldehyde,Cell Turnover,Active,3,8,5,6,7,Moderate,Anti-Aging|Skin Recovery|Brightening,Irritation Risk|Dryness Risk|Photosensitivity
+Tretinoin,Cell Turnover,Active,2,9,4,6,7,High,Anti-Aging|Acne Support|Skin Recovery,Irritation Risk|Dryness Risk|Photosensitivity
+Retinyl Palmitate,Cell Turnover,Active,6,7,7,7,8,Low,Anti-Aging|Antioxidant,Photosensitivity
+Vitamin C (L-Ascorbic Acid),Brightening,Active,4,8,7,7,8,Moderate,Brightening|Antioxidant|Anti-Aging|Pigmentation Reduction,Irritation Risk|Sensitivity Trigger
+Ascorbyl Glucoside,Brightening,Active,7,8,8,8,9,Low,Brightening|Antioxidant|Pigmentation Reduction,None
+Sodium Ascorbyl Phosphate,Brightening,Active,8,9,8,9,9,Low,Brightening|Antioxidant|Acne Support,None
+Ascorbyl Tetraisopalmitate,Brightening,Active,7,8,8,8,8,Low,Brightening|Antioxidant|Anti-Aging,None
+Ethyl Ascorbic Acid,Brightening,Active,7,8,8,8,8,Low,Brightening|Antioxidant|Pigmentation Reduction,None
+Azelaic Acid,Multi-Functional,Active,7,9,7,8,8,Low,Acne Support|Brightening|Redness Reduction|Pigmentation Reduction,Irritation Risk
+Salicylic Acid,Exfoliant,Active,3,10,4,7,7,Moderate,Exfoliation|Acne Support|Oil Control|Pore Care,Irritation Risk|Dryness Risk
+Alpha Arbutin,Brightening,Active,9,8,8,9,9,Low,Brightening|Pigmentation Reduction,None
+Kojic Acid,Brightening,Active,4,7,6,6,7,Moderate,Brightening|Pigmentation Reduction,Irritation Risk|Sensitivity Trigger
+Tranexamic Acid,Brightening,Active,8,8,8,8,9,Low,Brightening|Pigmentation Reduction|Redness Reduction,None
+Benzoyl Peroxide,Antibacterial,Active,2,8,3,6,6,Moderate,Acne Support,Irritation Risk|Dryness Risk|Sensitivity Trigger
+Mandelic Acid,Exfoliant,Exfoliant,6,9,6,8,8,Low,Exfoliation|Brightening|Acne Support,Irritation Risk|Photosensitivity
+Glycolic Acid,Exfoliant,Exfoliant,2,9,6,7,7,Moderate,Exfoliation|Anti-Aging|Brightening,Irritation Risk|Dryness Risk|Photosensitivity
+Lactic Acid,Exfoliant,Exfoliant,5,8,8,8,8,Low,Exfoliation|Hydration|Brightening,Irritation Risk|Photosensitivity
+Malic Acid,Exfoliant,Exfoliant,5,8,7,8,8,Low,Exfoliation|Brightening,Irritation Risk|Photosensitivity
+Tartaric Acid,Exfoliant,Exfoliant,5,8,7,8,8,Low,Exfoliation|Brightening|Antioxidant,Irritation Risk|Photosensitivity
+Citric Acid,pH Adjuster,Exfoliant,6,8,7,8,8,Low,Exfoliation|Brightening|Antioxidant,Irritation Risk
+Gluconolactone,Exfoliant,Exfoliant,8,8,8,8,9,Low,Exfoliation|Antioxidant|Hydration,Photosensitivity
+Lactobionic Acid,Exfoliant,Exfoliant,8,8,8,8,9,Low,Exfoliation|Antioxidant|Hydration,Photosensitivity
+Vitamin E (Tocopherol),Antioxidant,Antioxidant,8,6,9,7,8,Low,Antioxidant|Barrier Repair|Skin Recovery,Comedogenic Risk
+Ferulic Acid,Antioxidant,Antioxidant,8,8,8,8,9,Low,Antioxidant|Anti-Aging|Brightening,None
+Resveratrol,Antioxidant,Antioxidant,9,8,8,9,9,Low,Antioxidant|Anti-Aging,None
+Coenzyme Q10,Antioxidant,Antioxidant,9,8,8,8,9,Low,Antioxidant|Anti-Aging|Skin Recovery,None
+Astaxanthin,Antioxidant,Antioxidant,9,8,8,9,9,Low,Antioxidant|Anti-Aging|Anti-Inflammatory,None
+Glutathione,Brightening,Antioxidant,8,8,8,8,9,Low,Brightening|Antioxidant|Pigmentation Reduction,None
+Idebenone,Antioxidant,Antioxidant,8,8,8,8,9,Low,Antioxidant|Anti-Aging,None
+Vitamin A Palmitate,Antioxidant,Antioxidant,6,7,8,7,8,Low,Antioxidant|Anti-Aging,Photosensitivity
+Zinc PCA,Oil Control,Active,8,10,6,9,8,Low,Oil Control|Acne Support|Pore Care,None
+Zinc Oxide,Sunscreen,Active,9,8,7,8,9,Low,Anti-Inflammatory|Redness Reduction,None
+Titanium Dioxide,Sunscreen,Active,9,7,7,8,8,Low,Barrier Repair,None
+Copper Peptide,Anti-Aging,Active,7,8,8,8,8,Low,Anti-Aging|Skin Recovery|Barrier Repair,Sensitivity Trigger
+Argireline,Anti-Aging,Active,8,8,8,8,8,Low,Anti-Aging,None
+Matrixyl 3000,Anti-Aging,Active,8,8,8,8,8,Low,Anti-Aging|Skin Recovery,None
+Palmitoyl Pentapeptide-4,Anti-Aging,Active,8,8,8,8,8,Low,Anti-Aging|Skin Recovery,None
+Epidermal Growth Factor (EGF),Cell Renewal,Active,6,8,8,8,8,Moderate,Skin Recovery|Anti-Aging,Sensitivity Trigger
+Idebenone Peptide,Antioxidant,Active,8,8,8,8,9,Low,Antioxidant|Anti-Aging,None
+Hexylresorcinol,Brightening,Active,6,8,7,7,8,Moderate,Brightening|Pigmentation Reduction|Antioxidant,Irritation Risk
+Willow Bark Extract,Exfoliant,Botanical Extract,4,8,5,7,7,Moderate,Exfoliation|Acne Support,Irritation Risk|Sensitivity Trigger
+Oligopeptide-1,Cell Renewal,Active,7,8,8,8,8,Low,Skin Recovery|Anti-Aging,None
+Phenoxyethanol,Preservative,Preservative,6,7,7,7,7,Low,None,Sensitivity Trigger
+Ethylhexylglycerin,Preservative,Preservative,7,7,7,7,8,Low,None,Sensitivity Trigger
+Sodium Benzoate,Preservative,Preservative,6,7,6,7,7,Low,None,Sensitivity Trigger
+Potassium Sorbate,Preservative,Preservative,7,7,7,7,8,Low,None,None
+Caprylyl Glycol,Preservative,Preservative,7,7,7,7,8,Low,Hydration,None
+Benzyl Alcohol,Preservative,Preservative,5,6,6,6,7,Moderate,None,Sensitivity Trigger|Irritation Risk
+Fragrance,Fragrance,Irritant,1,5,5,5,5,High,None,Irritation Risk|Sensitivity Trigger
+Menthol,Cooling Agent,Irritant,1,5,4,4,5,High,None,Irritation Risk|Sensitivity Trigger
+Alcohol Denat,Astringent,Irritant,1,7,2,4,5,High,Oil Control,Irritation Risk|Dryness Risk|Sensitivity Trigger
+Eucalyptus Oil,Fragrance,Irritant,1,5,4,4,5,High,None,Irritation Risk|Sensitivity Trigger
+Peppermint Oil,Fragrance,Irritant,1,5,4,4,5,High,None,Irritation Risk|Sensitivity Trigger
+Limonene,Fragrance,Irritant,2,5,5,5,5,High,None,Irritation Risk|Sensitivity Trigger
+Linalool,Fragrance,Irritant,2,5,5,5,5,High,None,Irritation Risk|Sensitivity Trigger
+Witch Hazel,Astringent,Irritant,3,7,4,6,6,Moderate,Oil Control|Pore Care,Irritation Risk|Dryness Risk
+Tea Tree Oil,Antibacterial,Botanical Extract,3,8,4,7,6,Moderate,Acne Support|Oil Control,Irritation Risk|Sensitivity Trigger
+Lavender Oil,Fragrance,Irritant,3,5,5,5,6,Moderate,Soothing,Irritation Risk|Sensitivity Trigger
+Clary Sage Oil,Fragrance,Irritant,2,5,5,5,5,High,None,Irritation Risk|Sensitivity Trigger
+Geranium Oil,Fragrance,Irritant,2,5,5,5,5,High,None,Irritation Risk|Sensitivity Trigger
+Ylang Ylang Oil,Fragrance,Irritant,1,4,4,4,5,High,None,Irritation Risk|Sensitivity Trigger
+Citrus Oil,Fragrance,Irritant,2,5,5,5,5,High,None,Irritation Risk|Sensitivity Trigger|Photosensitivity
+Clove Oil,Fragrance,Irritant,1,4,3,3,4,High,None,Irritation Risk|Sensitivity Trigger
+Cinnamon Extract,Fragrance,Irritant,1,4,3,3,4,High,None,Irritation Risk|Sensitivity Trigger
+Cinnamal,Fragrance,Irritant,1,4,3,3,4,High,None,Irritation Risk|Sensitivity Trigger
+Geraniol,Fragrance,Irritant,2,4,4,4,5,High,None,Irritation Risk|Sensitivity Trigger
+Hydroxycitronellal,Fragrance,Irritant,2,4,4,4,5,High,None,Irritation Risk|Sensitivity Trigger
+Isoeugenol,Fragrance,Irritant,1,4,3,3,4,High,None,Irritation Risk|Sensitivity Trigger
+Coumarin,Fragrance,Irritant,2,4,4,4,5,High,None,Irritation Risk|Sensitivity Trigger
+Hydroxyisohexyl 3-Cyclohexene Carboxaldehyde,Fragrance,Irritant,1,4,3,3,4,High,None,Irritation Risk|Sensitivity Trigger
+Butyl Methoxydibenzoy lmethane,UV Filter,Active,5,7,6,7,7,Moderate,None,Photosensitivity|Sensitivity Trigger
+Octinoxate,UV Filter,Active,5,7,6,7,7,Moderate,None,Photosensitivity|Sensitivity Trigger
+Oxybenzone,UV Filter,Active,3,6,5,6,6,High,None,Sensitivity Trigger|Irritation Risk
+Octocrylene,UV Filter,Active,5,7,6,7,7,Moderate,None,Sensitivity Trigger
+Avobenzone,UV Filter,Active,5,7,6,7,7,Moderate,None,Photosensitivity|Sensitivity Trigger
+Xanthan Gum,Thickener,Excipient,9,8,8,9,9,Low,None,None
+Carbomer,Thickener,Excipient,8,8,8,8,8,Low,None,None
+Hydroxyethylcellulose,Thickener,Excipient,9,8,8,9,9,Low,None,None
+Polyacrylate Crosspolymer,Thickener,Excipient,8,8,8,8,8,Low,None,None
+Cellulose Gum,Thickener,Excipient,9,8,8,9,9,Low,None,None
+Propylene Glycol,Humectant,Humectant,5,7,7,7,7,Moderate,Hydration|Moisture Retention,Sensitivity Trigger|Irritation Risk
+Butylene Glycol,Humectant,Humectant,8,8,8,9,9,Low,Hydration|Moisture Retention,None
+Pentylene Glycol,Humectant,Humectant,8,8,8,9,9,Low,Hydration|Moisture Retention,None
+Caprylyl/Capryl Glucoside,Surfactant,Excipient,8,8,7,8,8,Low,None,None
+Decyl Glucoside,Surfactant,Excipient,8,8,7,8,8,Low,None,None
+Lauryl Glucoside,Surfactant,Excipient,7,8,7,8,8,Low,None,None
+Polysorbate 20,Emulsifier,Excipient,8,7,7,8,8,Low,None,None
+Polysorbate 80,Emulsifier,Excipient,7,7,7,7,7,Low,None,None
+Lecithin,Emulsifier,Excipient,8,7,8,8,8,Low,Barrier Repair,None
+Sodium Lauryl Sulfate,Surfactant,Irritant,2,6,3,5,5,High,None,Irritation Risk|Dryness Risk|Sensitivity Trigger
+Sodium Laureth Sulfate,Surfactant,Irritant,3,7,4,6,6,Moderate,None,Irritation Risk|Dryness Risk
+Cocamidopropyl Betaine,Surfactant,Excipient,6,8,6,7,7,Low,None,Sensitivity Trigger
+Disodium EDTA,Chelating Agent,Excipient,8,7,7,7,8,Low,None,None
+Tocopheryl Acetate,Antioxidant,Antioxidant,8,7,8,7,8,Low,Antioxidant|Skin Recovery,None
+Niacinamide (10%+),Brightening,Active,5,9,6,8,7,Moderate,Brightening|Oil Control|Pore Care,Irritation Risk
+Polyglutamic Acid,Humectant,Humectant,10,9,10,10,10,Low,Hydration|Moisture Retention|Barrier Repair,None
+Tremella Mushroom Extract,Humectant,Botanical Extract,9,8,10,9,9,Low,Hydration|Antioxidant,None
+Galactomyces Ferment Filtrate,Brightening,Ferment,8,9,8,9,9,Low,Brightening|Barrier Repair|Oil Control,None
+Bifida Ferment Lysate,Barrier Repair,Ferment,9,8,9,9,9,Low,Barrier Repair|Soothing|Anti-Aging,None
+Lactobacillus Ferment,Barrier Repair,Ferment,9,8,9,9,9,Low,Barrier Repair|Soothing,None
+Saccharomyces Ferment,Brightening,Ferment,8,9,8,8,9,Low,Brightening|Antioxidant|Barrier Repair,None
+Pitera (SK-II Galactomyces),Brightening,Ferment,8,9,8,9,9,Low,Brightening|Barrier Repair|Hydration,None
+Bacillus Ferment,Exfoliant,Ferment,6,8,7,8,8,Low,Exfoliation|Skin Recovery,None
+Sodium Lactate,Humectant,Humectant,9,8,9,9,9,Low,Hydration|Exfoliation,None
+Amino Acids,Humectant,Humectant,10,8,10,9,9,Low,Hydration|Barrier Repair|Skin Recovery,None
+Hydrolyzed Collagen,Anti-Aging,Humectant,9,7,10,8,9,Low,Anti-Aging|Hydration|Barrier Repair,None
+Hydrolyzed Elastin,Anti-Aging,Humectant,9,7,10,8,9,Low,Anti-Aging|Hydration,None
+Hydrolyzed Keratin,Barrier Repair,Excipient,9,7,9,8,9,Low,Barrier Repair|Hydration,None
+Hydrolyzed Wheat Protein,Barrier Repair,Excipient,8,7,9,8,8,Low,Barrier Repair|Hydration,Sensitivity Trigger
+Hydrolyzed Oat Protein,Soothing,Excipient,9,7,9,9,9,Low,Soothing|Barrier Repair|Hydration,None
+Rice Extract,Brightening,Botanical Extract,9,8,8,9,9,Low,Brightening|Antioxidant,None
+Mulberry Extract,Brightening,Botanical Extract,8,8,8,8,9,Low,Brightening|Pigmentation Reduction|Antioxidant,None
+Bearberry Extract,Brightening,Botanical Extract,7,8,7,8,8,Low,Brightening|Pigmentation Reduction,Irritation Risk
+Malachite Extract,Antioxidant,Botanical Extract,8,8,8,8,9,Low,Antioxidant|Barrier Repair,None
+Sea Daffodil Extract,Brightening,Botanical Extract,8,8,8,8,8,Low,Brightening|Pigmentation Reduction,None
+Phytic Acid,Brightening,Exfoliant,6,8,6,7,7,Moderate,Brightening|Exfoliation|Antioxidant,Irritation Risk
+Glucuronic Acid,Exfoliant,Exfoliant,7,8,7,8,8,Low,Exfoliation|Brightening,Photosensitivity
+Polyhydroxy Acid (PHA),Exfoliant,Exfoliant,8,8,8,8,9,Low,Exfoliation|Hydration|Antioxidant,Photosensitivity
+Adenosine,Anti-Aging,Active,9,8,8,9,9,Low,Anti-Aging|Redness Reduction|Soothing,None
+Epigallocatechin Gallate (EGCG),Antioxidant,Antioxidant,9,9,8,9,9,Low,Antioxidant|Anti-Inflammatory|Oil Control,None
+Caffeine,Antioxidant,Active,7,9,6,8,8,Low,Antioxidant|Oil Control|Pore Care,None
+Neem Extract,Antibacterial,Botanical Extract,5,8,6,7,7,Moderate,Acne Support|Oil Control,Irritation Risk|Sensitivity Trigger
+Propolis Extract,Antibacterial,Botanical Extract,7,8,7,8,8,Moderate,Acne Support|Antioxidant|Soothing,Sensitivity Trigger
+Honey Extract,Humectant,Botanical Extract,8,7,9,8,8,Low,Hydration|Soothing|Antioxidant,None
+Royal Jelly Extract,Anti-Aging,Botanical Extract,7,7,8,8,8,Moderate,Anti-Aging|Hydration|Skin Recovery,Sensitivity Trigger
+Snail Secretion Filtrate,Repair,Active,8,8,9,9,9,Low,Skin Recovery|Anti-Aging|Hydration|Barrier Repair,Sensitivity Trigger
+Colloidal Oatmeal,Soothing,Soothing Agent,10,7,9,9,9,Low,Soothing|Anti-Inflammatory|Barrier Repair|Redness Reduction,None
+Kaolin,Absorbent,Clay,7,10,3,7,7,Low,Oil Control|Pore Care,Dryness Risk
+Bentonite,Absorbent,Clay,6,10,3,7,7,Low,Oil Control|Pore Care,Dryness Risk
+French Green Clay,Absorbent,Clay,5,10,2,6,7,Low,Oil Control|Pore Care,Dryness Risk
+Fuller's Earth,Absorbent,Clay,5,10,2,6,7,Moderate,Oil Control|Pore Care,Dryness Risk|Irritation Risk
+Charcoal,Absorbent,Active,5,9,4,7,7,Low,Oil Control|Pore Care|Acne Support,Dryness Risk
+Sulfur,Antibacterial,Active,3,9,3,6,6,Moderate,Acne Support|Oil Control,Irritation Risk|Dryness Risk
+Zinc Sulfate,Astringent,Active,5,8,5,7,7,Moderate,Acne Support|Oil Control,Irritation Risk
+Linoleic Acid,Barrier Repair,Emollient,9,8,9,9,9,Low,Barrier Repair|Anti-Inflammatory|Hydration,None
+Oleic Acid,Emollient,Emollient,6,5,9,6,7,Low,Hydration|Barrier Repair,Comedogenic Risk
+Stearic Acid,Emollient,Emollient,7,5,8,6,7,Low,Barrier Repair|Hydration,Comedogenic Risk
+Palmitic Acid,Emollient,Emollient,7,5,8,6,7,Low,Barrier Repair|Hydration,Comedogenic Risk
+Capric Acid,Emollient,Emollient,8,7,8,7,8,Low,Barrier Repair|Hydration,None
+Collagen (Topical),Anti-Aging,Humectant,8,7,9,8,8,Low,Hydration|Anti-Aging,None
+Elastin,Anti-Aging,Humectant,8,7,9,8,8,Low,Hydration|Anti-Aging,None
+Ectoin,Soothing,Soothing Agent,10,8,9,9,9,Low,Soothing|Anti-Inflammatory|Barrier Repair,None
+Sodium Hyaluronidase,Penetration Enhancer,Active,5,7,6,7,7,Moderate,Hydration,Irritation Risk
+Peptide Complex,Anti-Aging,Active,9,8,9,9,9,Low,Anti-Aging|Skin Recovery,None
+Acetyl Hexapeptide-3,Anti-Aging,Active,8,8,8,8,9,Low,Anti-Aging,None
+Palmitoyl Tripeptide-5,Anti-Aging,Active,8,7,9,8,9,Low,Anti-Aging|Barrier Repair,None
+Sodium Ascorbate,Antioxidant,Antioxidant,8,8,8,8,9,Low,Antioxidant|Brightening,None
+Tocopherol Phosphate,Antioxidant,Antioxidant,8,7,8,8,8,Low,Antioxidant|Skin Recovery,None
+Bakuchiol,Retinol Alternative,Active,8,8,8,8,9,Low,Anti-Aging|Brightening|Antioxidant,None
+Succinic Acid,Antibacterial,Active,6,9,6,8,7,Low,Acne Support|Brightening,Irritation Risk
+Lactobacillus/Ferment Lysate,Barrier Repair,Ferment,9,8,9,9,9,Low,Barrier Repair|Microbiome Support|Soothing,None
+Prebiotic Inulin,Barrier Repair,Excipient,9,8,9,9,9,Low,Barrier Repair|Microbiome Support,None
+Sea Water,Mineral,Excipient,7,8,6,8,8,Low,Hydration|Mineral Replenishment,None
+Thermal Water,Soothing,Excipient,9,8,8,9,9,Low,Soothing|Redness Reduction,None
+Mineral Water,Hydration,Excipient,9,8,8,9,9,Low,Hydration|Soothing,None
+Silicone Crosspolymer,Texture Enhancer,Excipient,8,7,7,8,8,Low,None,None
+Nylon-12,Texture Enhancer,Excipient,8,8,7,8,8,Low,None,None
+Mica,Luminizer,Excipient,8,7,7,8,8,Low,None,None
+Iron Oxides,Colorant,Excipient,8,7,7,8,8,Low,None,None
+Sodium Chloride,Tonicity Agent,Excipient,8,7,7,8,8,Low,None,Irritation Risk
+Magnesium Sulfate,Tonicity Agent,Excipient,8,7,7,8,8,Low,None,None
+Sericin,Barrier Repair,Protein,9,7,9,8,9,Low,Barrier Repair|Hydration|Soothing,None
+Silk Amino Acids,Humectant,Protein,9,8,9,9,9,Low,Hydration|Barrier Repair,None
+Hydroxyproline,Humectant,Amino Acid,9,8,9,9,9,Low,Hydration|Anti-Aging,None
+Arginine,pH Adjuster,Amino Acid,9,8,8,9,9,Low,Soothing|Barrier Repair,None
+Proline,Humectant,Amino Acid,9,8,9,9,9,Low,Hydration|Barrier Repair,None
+Serine,Humectant,Amino Acid,9,8,9,9,9,Low,Hydration|Barrier Repair,None
+Inositol,Cell Communication,Active,8,8,8,8,8,Low,Hydration|Barrier Repair,None
+Niacinamide Riboside,Anti-Aging,Active,8,8,8,8,9,Low,Anti-Aging|Brightening,None
+Ergothioneine,Antioxidant,Antioxidant,9,8,8,9,9,Low,Antioxidant|Anti-Aging|Anti-Inflammatory,None
+Plankton Extract,Anti-Aging,Botanical Extract,8,8,8,9,9,Low,Anti-Aging|Antioxidant|Hydration,None
+Algae Extract,Anti-Aging,Botanical Extract,9,8,9,9,9,Low,Hydration|Antioxidant|Anti-Aging,None
+Spirulina Extract,Antioxidant,Botanical Extract,8,8,8,8,9,Low,Antioxidant|Brightening|Anti-Aging,None
+Chlorella Extract,Detoxifying,Botanical Extract,8,8,8,8,9,Low,Antioxidant|Detoxifying|Brightening,None
+Broccoli Extract,Antioxidant,Botanical Extract,8,8,8,8,9,Low,Antioxidant|Anti-Aging,None
+Kale Extract,Antioxidant,Botanical Extract,8,8,8,8,9,Low,Antioxidant|Brightening,None

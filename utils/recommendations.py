@@ -1,14 +1,3 @@
-"""
-recommendations.py
-
-Ingredient-level recommendation engine.
-
-Produces four types of actionable intelligence:
-    1. Addition recommendations  — beneficial missing ingredients per skin type
-    2. Avoid recommendations     — problematic ingredients already in the formula
-    3. Formula strengths         — top-performing ingredients by skin-type score
-    4. Formula weaknesses        — high-risk or low-compatibility ingredients
-"""
 
 from typing import List
 

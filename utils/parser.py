@@ -16,6 +16,7 @@ SYNONYMS: dict[str, str] = {
     "beta-glucan": "beta glucan",
     "aloe barbadensis leaf juice": "aloe vera",
     "tocopheryl acetate": "vitamin e",
+    "centella asiatica": "centella asiatica extract",
 }
 
 
@@ -73,9 +74,9 @@ def parse_ingredients(raw_text: str) -> List[str]:
 # Test section
 # ---------------------------------------------------------------------------
 if __name__ == "__main__":
-    # Test Case 1 — newline-separated, no synonyms
+    # Test Case 1 — newline-separated, with centella asiatica synonym
     input_1 = "Ceramide NP\nPanthenol\nCentella Asiatica"
-    expected_1 = ["ceramide np", "panthenol", "centella asiatica"]
+    expected_1 = ["ceramide np", "panthenol", "centella asiatica extract"]
     result_1 = parse_ingredients(input_1)
     assert result_1 == expected_1, f"FAIL: {result_1}"
     print(f"[PASS] Test Case 1: {result_1}")

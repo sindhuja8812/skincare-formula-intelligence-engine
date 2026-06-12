@@ -467,9 +467,11 @@ def render_skin_type_comparison(rows: List[dict], active_skin_type: str) -> str:
         bar_width  = min(bar_width, 120)
 
         badge = ""
-        if i == 0:
+        if is_active:
+            badge = '<span class="stc-badge" style="background:#1a2e40;color:#7ec8e3;border:1px solid #2a5a78;">▶ Selected</span>'
+        elif i == 0:
             badge = '<span class="stc-badge stc-best">Best Match</span>'
-        elif i == 1:
+        elif i == 1 and rows[0]["skin_type"].lower() != active_lower:
             badge = '<span class="stc-badge stc-secondary">Good Match</span>'
 
         html += f'<tr{row_class}>'
@@ -481,7 +483,7 @@ def render_skin_type_comparison(rows: List[dict], active_skin_type: str) -> str:
             f'</span>'
             f'</td>'
         )
-        html += f'<td style="color:{row["color"]};font-weight:700">{row["score"]}</td>'
+        html += f'<td style="color:{row["color"]};font-weight:700">{round(row["score"])}</td>'
         html += f'<td>{badge}</td>'
         html += '</tr>'
 
@@ -521,9 +523,10 @@ def get_addition_reasons(additions: List[str]) -> List[dict]:
 # ── Ingredient Card ───────────────────────────────────────────────────────────
 
 def render_ingredient_card(ing: dict, skin_type: str) -> str:
-    col        = f"{skin_type.lower()}_score"
-    score      = ing.get(col, "—")
-    risk       = ing.get("risk_level", "Low")
+    col      = f"{skin_type.lower()}_score"
+    risk_col = f"{skin_type.lower()}_risk"
+    score    = ing.get(col, "—")          
+    risk     = ing.get(risk_col) or ing.get("risk_level", "Low")
     name       = ing["ingredient"].title()
     function   = ing.get("function", "—")
     raw_ben    = ing.get("benefits", "None") or "None"
@@ -707,11 +710,11 @@ if analyse_clicked:
     <div class="fh-grid">
       <div class="fh-item">
         <div class="fh-lbl">Compatibility</div>
-        <div class="fh-val {sc}">{compat_score} / 100</div>
+        <div class="fh-val {sc}">{round(compat_score)} / 100</div>
       </div>
       <div class="fh-item">
         <div class="fh-lbl">Balanced Formula Score</div>
-        <div class="fh-val {osc}">{overall_score} / 100</div>
+        <div class="fh-val {osc}">{round(overall_score)} / 100</div>
       </div>
       <div class="fh-item">
         <div class="fh-lbl">Risk Profile</div>
@@ -744,14 +747,14 @@ if analyse_clicked:
         best_html  = f'<div style="margin-bottom:16px;">'
         best_html += f'<div style="font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:#555;margin-bottom:6px;">Primary Match</div>'
         best_html += f'<div style="font-size:1.3rem;font-weight:700;color:{best["color"]}">✓ {best["skin_type"]} Skin</div>'
-        best_html += f'<div style="font-size:0.82rem;color:#555;margin-top:3px;">{best["score"]} / 100 · {best["verdict"]}</div>'
+        best_html += f'<div style="font-size:0.82rem;color:#555;margin-top:3px;">{round(best["score"])} / 100 · {best["verdict"]}</div>'
         best_html += f'</div>'
 
         if second and second["score"] >= 62:
             best_html += f'<div>'
             best_html += f'<div style="font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:#555;margin-bottom:6px;">Secondary Match</div>'
             best_html += f'<div style="font-size:1.1rem;font-weight:600;color:{second["color"]}">✓ {second["skin_type"]} Skin</div>'
-            best_html += f'<div style="font-size:0.82rem;color:#555;margin-top:3px;">{second["score"]} / 100</div>'
+            best_html += f'<div style="font-size:0.82rem;color:#555;margin-top:3px;">{round(second["score"])} / 100</div>'
             best_html += f'</div>'
 
         st.markdown(f'<div class="sf-card" style="padding:20px 22px;">{best_html}</div>',

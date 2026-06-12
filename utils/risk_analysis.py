@@ -32,10 +32,13 @@ def analyze_risk(matched_ingredients: List[dict], skin_type: str = "normal") -> 
     high     = counts["High"]
     moderate = counts["Moderate"]
 
-    if high >= 3:
+    
+    if high >= 2:
         overall = "High"
-    elif high >= 1 or moderate >= 3:
+    elif high == 1 and moderate >= 2:
         overall = "High"
+    elif high == 1:
+        overall = "Moderate"
     elif moderate >= 1:
         overall = "Moderate"
     else:

@@ -1,13 +1,6 @@
 """
 app.py — Skincare Formula Intelligence Engine
 Main Streamlit application entry point.
-
-Responsibilities:
-- Page layout, theming, and custom CSS injection
-- Input collection (ingredient list + skin type)
-- Orchestration of all backend utility calls
-- Rendering: formula type detection, score drivers, strength meter,
-  ingredient cards, recommendation table
 """
 
 import streamlit as st
@@ -16,7 +9,6 @@ import plotly.graph_objects as go
 from collections import Counter
 from typing import List
 
-# ── Backend utility imports ───────────────────────────────────────────────────
 from utils.knowledge_loader import load_knowledge_base, find_ingredient
 from utils.parser import parse_ingredients
 from utils.scorer import calculate_skin_match_score, calculate_overall_formula_score, SKIN_TYPE_COLUMNS
@@ -31,18 +23,15 @@ from utils.recommendations import (
 )
 from utils.summary_generator import generate_formula_summary
 
-# ── Page configuration ────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="Skincare Formula Intelligence Engine",
     page_icon="",
     layout="wide",
-    initial_sidebar_state="auto",   # sidebar hidden entirely via CSS below
+    initial_sidebar_state="auto",
 )
 
-# ── Custom CSS ────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-/* ─── Global ─── */
 html, body, [class*="css"] {
     font-family: 'Inter', 'Segoe UI', sans-serif;
     background-color: #0e1117;
@@ -50,7 +39,6 @@ html, body, [class*="css"] {
 }
 #MainMenu, footer, header { visibility: hidden; }
 
-/* ─── Metric cards ─── */
 div[data-testid="metric-container"] {
     background: #1a1d27;
     border: 1px solid #2a2d3e;
@@ -69,7 +57,6 @@ div[data-testid="metric-container"] [data-testid="metric-value"] {
     color: #ffffff !important;
 }
 
-/* ─── Generic card ─── */
 .sf-card {
     background: #1a1d27;
     border: 1px solid #2a2d3e;
@@ -85,7 +72,6 @@ div[data-testid="metric-container"] [data-testid="metric-value"] {
     text-transform: uppercase;
 }
 
-/* ─── Section label ─── */
 .sf-section-title {
     font-size: 0.72rem;
     letter-spacing: 0.13em;
@@ -95,10 +81,8 @@ div[data-testid="metric-container"] [data-testid="metric-value"] {
     margin-top: 6px;
 }
 
-/* ─── Divider ─── */
 .sf-divider { border: none; border-top: 1px solid #1e2130; margin: 24px 0; }
 
-/* ─── Verdict banner ─── */
 .verdict-banner {
     border-radius: 14px;
     padding: 24px 30px;
@@ -117,10 +101,10 @@ div[data-testid="metric-container"] [data-testid="metric-value"] {
 .vb-orange { background: linear-gradient(135deg,#271708,#32190a); border:1px solid #7a3e08; }
 .vb-red    { background: linear-gradient(135deg,#270b0b,#320e0e); border:1px solid #7a1515; }
 
-/* ─── Formula health badge grid ─── */
+/* ── Formula health badge grid — 3 cells now (Coverage removed) ── */
 .fh-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 12px;
     margin-top: 8px;
 }
@@ -139,7 +123,6 @@ div[data-testid="metric-container"] [data-testid="metric-value"] {
 .fh-red    { color: #f08080; }
 .fh-neutral{ color: #c8d0e0; }
 
-/* ─── Formula type chips ─── */
 .ft-badge {
     display: inline-block;
     background: #0f2236;
@@ -160,8 +143,6 @@ div[data-testid="metric-container"] [data-testid="metric-value"] {
     padding: 7px 16px;
 }
 
-
-/* ─── Ingredient cards ─── */
 .ic-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -204,7 +185,6 @@ div[data-testid="metric-container"] [data-testid="metric-value"] {
 .ic-benefit { font-size: 0.73rem; color: #6a8aaa; padding: 2px 0; line-height: 1.3; }
 .ic-benefit::before { content: "✓ "; color: #5de8a0; margin-right: 3px; }
 
-/* ─── Recommendation table ─── */
 .rec-row {
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -218,7 +198,6 @@ div[data-testid="metric-container"] [data-testid="metric-value"] {
 .rec-name { color: #c8d0e0; font-weight: 500; }
 .rec-why  { color: #666; font-size: 0.82rem; line-height: 1.45; }
 
-/* ─── Tags ─── */
 .tag-benefit {
     display: inline-block;
     background: #0f2419;
@@ -242,7 +221,6 @@ div[data-testid="metric-container"] [data-testid="metric-value"] {
     font-weight: 500;
 }
 
-/* ─── Summary box ─── */
 .summary-box {
     background: #0e1117;
     border-left: 3px solid #2a5a9a;
@@ -255,10 +233,57 @@ div[data-testid="metric-container"] [data-testid="metric-value"] {
     font-family: 'Inter', 'Segoe UI', monospace;
 }
 
-/* ─── Dataframe ─── */
-[data-testid="stDataFrame"] { border-radius: 10px; overflow: hidden; }
+/* ── Skin type comparison table ── */
+.stc-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+    font-size: 0.88rem;
+}
+.stc-table th {
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #555;
+    padding: 6px 12px;
+    text-align: left;
+    border-bottom: 1px solid #1e2130;
+}
+.stc-table td {
+    padding: 9px 12px;
+    border-bottom: 1px solid #13161f;
+    color: #c8d0e0;
+}
+.stc-table tr:last-child td { border-bottom: none; }
+.stc-active-row td { background: #0f1e14; }
+.stc-bar-wrap {
+    background: #13161f;
+    border-radius: 4px;
+    height: 6px;
+    width: 120px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+.stc-bar-fill {
+    height: 6px;
+    border-radius: 4px;
+    display: block;
+}
+.stc-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 3px;
+    vertical-align: middle;
+}
+.stc-best      { background:#0f2a1a; color:#5de8a0; border:1px solid #1a4a2a; }
+.stc-secondary { background:#0b1a2e; color:#4a9eff; border:1px solid #1a3f78; }
 
-/* ─── Hide sidebar toggle button entirely ─── */
+[data-testid="stDataFrame"] { border-radius: 10px; overflow: hidden; }
 [data-testid="collapsedControl"] { display: none !important; }
 section[data-testid="stSidebar"] { display: none !important; }
 </style>
@@ -266,34 +291,30 @@ section[data-testid="stSidebar"] { display: none !important; }
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Helper functions for the 5 new features
+# Helpers
 # ─────────────────────────────────────────────────────────────────────────────
 
 @st.cache_data
 def get_knowledge_base():
-    """Load and cache the ingredient knowledge base CSV once per session."""
     return load_knowledge_base()
 
 
 def _score_color_class(score: float) -> str:
-    """Map a 0–100 score to one of four CSS colour class names."""
-    if score >= 85: return "fh-green"
-    if score >= 75: return "fh-blue"
-    if score >= 65: return "fh-orange"
+    """Map 0–90 score to CSS colour class. Aligned with VERDICT_THRESHOLDS."""
+    if score >= 82: return "fh-green"
+    if score >= 72: return "fh-blue"
+    if score >= 62: return "fh-orange"
     return "fh-red"
 
 
 def _banner_class(score: float) -> str:
-    """Map score to verdict banner background CSS class."""
-    if score >= 85: return "vb-green"
-    if score >= 75: return "vb-blue"
-    if score >= 65: return "vb-orange"
+    if score >= 82: return "vb-green"
+    if score >= 72: return "vb-blue"
+    if score >= 62: return "vb-orange"
     return "vb-red"
 
 
-# ── Feature 1 helper: Formula Type Detection ─────────────────────────────────
-# Maps benefit strings to formula type labels.
-# If a formula accumulates enough of a given benefit, we classify it as that type.
+# ── Formula Type Detection ────────────────────────────────────────────────────
 
 _BENEFIT_TO_TYPE: dict[str, str] = {
     "Barrier Repair":         "Barrier Repair",
@@ -312,93 +333,164 @@ _BENEFIT_TO_TYPE: dict[str, str] = {
 }
 
 def detect_formula_type(matched_ingredients: List[dict]) -> tuple[str, List[str]]:
-    """
-    Derive the formula's primary type and secondary types from benefit counts.
-
-    Counts how often each mapped type appears across all ingredient benefits,
-    returns the most common as primary and up to 3 others as secondary labels.
-
-    Returns:
-        (primary_type, secondary_types)
-    """
     type_counts: Counter = Counter()
     for ing in matched_ingredients:
         raw = ing.get("benefits", "None") or "None"
         for benefit in raw.split("|"):
             b = benefit.strip()
             if b in _BENEFIT_TO_TYPE:
-                type_counts[_BENEFIT_TO_TYPE[b]] += 1   # accumulate type score
-
+                type_counts[_BENEFIT_TO_TYPE[b]] += 1
     if not type_counts:
         return "General Formula", []
-
-    ordered = type_counts.most_common()          # sorted by frequency
-    primary    = ordered[0][0]                   # top type is primary
-    secondary  = [t for t, _ in ordered[1:4]]   # next up to 3 are secondary
+    ordered   = type_counts.most_common()
+    primary   = ordered[0][0]
+    secondary = [t for t, _ in ordered[1:4]]
     return primary, secondary
 
 
-
-# ── Feature 3 helper: Strength Meter (Plotly chart) ──────────────────────────
-# Maps benefit keywords to six formula strength dimensions.
-# Keywords are intentionally specific: "Skin Recovery" is a repair benefit,
-# not an aging benefit, so it belongs only to Soothing/Repair dimensions.
+# ── Strength Meter ────────────────────────────────────────────────────────────
 
 _STRENGTH_DIMENSIONS: dict[str, List[str]] = {
     "Hydration":      ["Hydration", "Moisture Retention"],
     "Barrier Repair": ["Barrier Repair"],
     "Soothing":       ["Soothing", "Redness Reduction", "Skin Recovery"],
     "Brightening":    ["Brightening", "Pigmentation Reduction"],
-    "Anti-Aging":     ["Anti-Aging"],                          # strict — Skin Recovery removed
+    "Anti-Aging":     ["Anti-Aging"],
     "Oil Control":    ["Oil Control", "Acne Support", "Pore Care"],
 }
 
+# Maps raw 0-100 score to a confidence tier label and a normalised display score
+# so bars represent category confidence, not raw arithmetic counts.
+_CONFIDENCE_TIERS: list[tuple[int, str, int]] = [
+    # (min_raw, label,       display_score)
+    (75, "Very High",  100),
+    (45, "High",        78),
+    (20, "Medium",      52),
+    (5,  "Low",         28),
+    (0,  "Minimal",     10),
+]
+
+def _to_confidence(raw_score: int) -> tuple[str, int]:
+    """Convert a raw 0–100 score to (label, display_score) pair."""
+    for min_raw, label, display in _CONFIDENCE_TIERS:
+        if raw_score >= min_raw:
+            return label, display
+    return "Minimal", 10
+
+
 def build_strength_meter(matched_ingredients: List[dict]) -> List[dict]:
     """
-    Score each dimension by counting total benefit keyword hits across all ingredients.
-
-    Unlike the previous binary version (ingredient either contributes or not),
-    this counts every matching keyword, so an ingredient with 3 soothing benefits
-    contributes more than one with 1. Scores are normalised against the maximum
-    possible hits (n_ingredients × max_keywords_per_dimension) so the output
-    is always 0–100 and comparable across dimensions.
-
-    Returns:
-        List of dicts: {dimension, score (0–100), color_hex}, sorted descending.
+    Score each dimension by keyword hits, then convert to confidence tiers
+    so the chart shows category confidence rather than raw arithmetic counts.
     """
     n = max(len(matched_ingredients), 1)
-
-    # Count total keyword hits per dimension (not just "did any match?")
     dim_hits: dict[str, int] = {d: 0 for d in _STRENGTH_DIMENSIONS}
 
     for ing in matched_ingredients:
-        raw = ing.get("benefits", "None") or "None"
+        raw         = ing.get("benefits", "None") or "None"
         benefit_set = {b.strip() for b in raw.split("|")}
         for dim, keywords in _STRENGTH_DIMENSIONS.items():
-            # Count how many keywords from this dimension the ingredient has
-            hits = sum(1 for k in keywords if k in benefit_set)
-            dim_hits[dim] += hits
+            dim_hits[dim] += sum(1 for k in keywords if k in benefit_set)
 
     result = []
     for dim, hits in dim_hits.items():
-        # Normalise: max possible = n_ingredients × n_keywords_for_this_dimension
         max_possible = n * len(_STRENGTH_DIMENSIONS[dim])
-        score = round(min((hits / max_possible) * 100, 100)) if max_possible else 0
+        raw_score    = round(min((hits / max_possible) * 100, 100)) if max_possible else 0
 
-        if score >= 70:    color = "#5de8a0"
-        elif score >= 40:  color = "#4a9eff"
-        elif score >= 15:  color = "#ffaa44"
-        else:              color = "#3a3d4e"
+        label, display_score = _to_confidence(raw_score)
 
-        result.append({"dimension": dim, "score": score, "color": color})
+        if label == "Very High": color = "#5de8a0"
+        elif label == "High":    color = "#4a9eff"
+        elif label == "Medium":  color = "#ffaa44"
+        else:                    color = "#3a3d4e"
 
-    result.sort(key=lambda x: x["score"], reverse=True)
+        result.append({
+            "dimension":     dim,
+            "raw_score":     raw_score,
+            "display_score": display_score,
+            "label":         label,
+            "color":         color,
+        })
+
+    result.sort(key=lambda x: x["display_score"], reverse=True)
     return result
 
 
-# ── Feature 4 helper: Recommended additions with reasons ─────────────────────
+# ── Skin Type Comparison ──────────────────────────────────────────────────────
 
-# Per-ingredient rationale shown in the recommendation table
+_ALL_SKIN_TYPES = ["oily", "combination", "normal", "dry", "sensitive"]
+
+def calculate_skin_type_comparison(matched_ingredients: List[dict], total_count: int) -> List[dict]:
+    """
+    Score the formula against every skin type and return rows sorted best-first.
+    Each row: {skin_type, score, verdict, color, bar_color}
+    """
+    rows = []
+    for st_key in _ALL_SKIN_TYPES:
+        result = calculate_skin_match_score(matched_ingredients, st_key, total_count)
+        score  = result["score"]
+
+        if score >= 82:   color, bar_color = "#5de8a0", "#5de8a0"
+        elif score >= 72: color, bar_color = "#4a9eff", "#4a9eff"
+        elif score >= 62: color, bar_color = "#ffaa44", "#ffaa44"
+        else:             color, bar_color = "#f08080", "#f08080"
+
+        rows.append({
+            "skin_type": st_key.title(),
+            "score":     score,
+            "verdict":   result["verdict"],
+            "color":     color,
+            "bar_color": bar_color,
+        })
+
+    rows.sort(key=lambda r: r["score"], reverse=True)
+    return rows
+
+
+def render_skin_type_comparison(rows: List[dict], active_skin_type: str) -> str:
+    """
+    Build the HTML for the skin-type comparison table.
+    The currently-selected skin type gets a highlighted row.
+    Best and second-best rows get a badge.
+    """
+    active_lower = active_skin_type.lower()
+
+    html  = '<table class="stc-table">'
+    html += '<thead><tr>'
+    html += '<th>Skin Type</th><th>Compatibility</th><th>Score</th><th></th>'
+    html += '</tr></thead><tbody>'
+
+    for i, row in enumerate(rows):
+        is_active  = row["skin_type"].lower() == active_lower
+        row_class  = ' class="stc-active-row"' if is_active else ""
+        bar_width  = round((row["score"] / 90) * 120)   # max bar = 120px at score 90
+        bar_width  = min(bar_width, 120)
+
+        badge = ""
+        if i == 0:
+            badge = '<span class="stc-badge stc-best">Best Match</span>'
+        elif i == 1:
+            badge = '<span class="stc-badge stc-secondary">Good Match</span>'
+
+        html += f'<tr{row_class}>'
+        html += f'<td style="color:{row["color"]};font-weight:600">{row["skin_type"]}</td>'
+        html += (
+            f'<td>'
+            f'<span class="stc-bar-wrap">'
+            f'<span class="stc-bar-fill" style="width:{bar_width}px;background:{row["bar_color"]}"></span>'
+            f'</span>'
+            f'</td>'
+        )
+        html += f'<td style="color:{row["color"]};font-weight:700">{row["score"]}</td>'
+        html += f'<td>{badge}</td>'
+        html += '</tr>'
+
+    html += '</tbody></table>'
+    return html
+
+
+# ── Recommendation Reasons ────────────────────────────────────────────────────
+
 _ADDITION_REASONS: dict[str, str] = {
     "ceramide np":              "Reinforces the skin barrier and seals in moisture",
     "panthenol":                "Calms irritation and accelerates surface healing",
@@ -418,17 +510,6 @@ _ADDITION_REASONS: dict[str, str] = {
 }
 
 def get_addition_reasons(additions: List[str]) -> List[dict]:
-    """
-    Pair each suggested ingredient with a plain-language explanation of why it helps.
-
-    Falls back to a generic description if the ingredient isn't in the lookup table.
-
-    Args:
-        additions: Title-cased ingredient names from generate_addition_recommendations().
-
-    Returns:
-        List of dicts: {name, reason}.
-    """
     result = []
     for name in additions:
         key    = name.lower()
@@ -437,24 +518,9 @@ def get_addition_reasons(additions: List[str]) -> List[dict]:
     return result
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Render helpers
-# ─────────────────────────────────────────────────────────────────────────────
+# ── Ingredient Card ───────────────────────────────────────────────────────────
 
 def render_ingredient_card(ing: dict, skin_type: str) -> str:
-    """
-    Build the HTML string for one ingredient card.
-
-    Uses string concatenation (not a multiline f-string) so Streamlit's
-    markdown parser never sees indented lines it could misread as a code block.
-
-    Args:
-        ing:       Matched ingredient dict from the knowledge base.
-        skin_type: Used to pull the relevant score column.
-
-    Returns:
-        str: HTML block for one card, safe to concatenate into the ic-grid div.
-    """
     col        = f"{skin_type.lower()}_score"
     score      = ing.get(col, "—")
     risk       = ing.get("risk_level", "Low")
@@ -463,11 +529,9 @@ def render_ingredient_card(ing: dict, skin_type: str) -> str:
     raw_ben    = ing.get("benefits", "None") or "None"
     top_bens   = [b.strip() for b in raw_ben.split("|") if b.strip().lower() != "none"][:2]
 
-    # CSS modifier classes for border and risk badge colour
     risk_border = {"High": "ic-risk-high", "Moderate": "ic-risk-mod"}.get(risk, "ic-risk-low")
     risk_badge  = {"High": "ic-rb-high",   "Moderate": "ic-rb-mod"  }.get(risk, "ic-rb-low")
 
-    # Score value and colour
     if isinstance(score, (int, float)):
         if score >= 8:    score_color = "#5de8a0"
         elif score >= 6:  score_color = "#4a9eff"
@@ -478,10 +542,8 @@ def render_ingredient_card(ing: dict, skin_type: str) -> str:
         score_color   = "#888"
         score_display = "—"
 
-    # Build benefit lines — one per benefit, no multiline template
     bens_html = "".join(f'<div class="ic-benefit">{b}</div>' for b in top_bens)
 
-    # Assemble card with concatenation only — no indented multiline f-string
     html  = f'<div class="ic-card {risk_border}">'
     html += f'<div class="ic-name">{name}</div>'
     html += f'<div class="ic-fn">{function}</div>'
@@ -533,10 +595,8 @@ with col_right:
         label_visibility="collapsed",
         options=["Sensitive", "Oily", "Dry", "Combination", "Normal"],
     )
-    # Button sits directly below dropdown in the same column
     analyse_clicked = st.button("Analyse Formula", use_container_width=True, type="primary")
 
-# About / disclaimer collapsed — frees full width for results
 with st.expander("About this project"):
     c1, c2, c3 = st.columns(3)
     with c1:
@@ -573,7 +633,6 @@ if analyse_clicked:
 
     kb = get_knowledge_base()
 
-    # Parse → match → identify unrecognised
     parsed   = parse_ingredients(formula_input)
     matched  = [find_ingredient(name, kb) for name in parsed]
     matched  = [m for m in matched if m is not None]
@@ -586,7 +645,7 @@ if analyse_clicked:
 
     total_count = len(parsed)
 
-    # ── Core calculations ─────────────────────────────────────────────────────
+    # Core calculations
     compat        = calculate_skin_match_score(matched, skin_type.lower(), total_count)
     overall       = calculate_overall_formula_score(matched, total_count)
     compat_score  = compat["score"]
@@ -594,7 +653,7 @@ if analyse_clicked:
     verdict       = compat["verdict"]
     coverage      = compat["coverage"]["coverage"]
 
-    risk       = analyze_risk(matched)
+    risk       = analyze_risk(matched, skin_type=skin_type.lower())
     risk_label = risk["overall_risk"]
 
     benefits   = extract_benefits(matched)
@@ -615,33 +674,34 @@ if analyse_clicked:
         weaknesses=weaknesses,
     )
 
-    # ── New feature data ──────────────────────────────────────────────────────
-    primary_type, secondary_types = detect_formula_type(matched)     # Feature: formula type
-    strength_meter = build_strength_meter(matched)                   # Feature: strength meter
-    addition_reasons = get_addition_reasons(additions)               # Feature: rec table
+    primary_type, secondary_types = detect_formula_type(matched)
+    strength_meter   = build_strength_meter(matched)
+    addition_reasons = get_addition_reasons(additions)
+    comparison_rows  = calculate_skin_type_comparison(matched, total_count)   # NEW
 
-    # ═════════════════════════════════════════════════════════════════════════
+
+    # ═══════════════════════════════════════════════════════════════
     # SECTION 1 — VERDICT BANNER
-    # ═════════════════════════════════════════════════════════════════════════
+    # ═══════════════════════════════════════════════════════════════
     css_class = _banner_class(compat_score)
     st.markdown(f"""
     <div class="verdict-banner {css_class}">
       <div class="vb-text">
         <div class="vb-label">Formula Verdict</div>
         <div class="vb-main">{verdict} for {skin_type} Skin</div>
-        <div class="vb-score">Compatibility Score: {compat_score} / 100 &nbsp;·&nbsp;
-          {compat['coverage']['recognized_ingredients']} of {compat['coverage']['total_ingredients']} ingredients recognised</div>
+        <div class="vb-score">Compatibility Score: {compat_score} / 100</div>
       </div>
     </div>
     """, unsafe_allow_html=True)
 
-    # ═════════════════════════════════════════════════════════════════════════
-    # SECTION 2 — FORMULA HEALTH BADGE (replaces metrics row)
-    # ═════════════════════════════════════════════════════════════════════════
+    # ═══════════════════════════════════════════════════════════════
+    # SECTION 2 — FORMULA HEALTH BADGES
+    # Coverage removed from here — lives in Scoring Methodology only
+    # "Formula Quality" renamed to "Balanced Formula Score"
+    # ═══════════════════════════════════════════════════════════════
     sc  = _score_color_class(compat_score)
     osc = _score_color_class(overall_score)
     rc  = {"Low": "fh-green", "Moderate": "fh-orange", "High": "fh-red"}.get(risk_label, "fh-neutral")
-    cvc = "fh-green" if coverage >= 80 else ("fh-orange" if coverage >= 50 else "fh-red")
 
     st.markdown(f"""
     <div class="fh-grid">
@@ -650,51 +710,84 @@ if analyse_clicked:
         <div class="fh-val {sc}">{compat_score} / 100</div>
       </div>
       <div class="fh-item">
-        <div class="fh-lbl">Formula Quality</div>
+        <div class="fh-lbl">Balanced Formula Score</div>
         <div class="fh-val {osc}">{overall_score} / 100</div>
       </div>
       <div class="fh-item">
         <div class="fh-lbl">Risk Profile</div>
         <div class="fh-val {rc}">{risk_label}</div>
       </div>
-      <div class="fh-item">
-        <div class="fh-lbl">Coverage</div>
-        <div class="fh-val {cvc}">{coverage}%</div>
-        <div style="font-size:0.68rem;color:#666;margin-top:5px;">{compat['coverage']['recognized_ingredients']}/{compat['coverage']['total_ingredients']} recognised</div>
-      </div>
     </div>
     """, unsafe_allow_html=True)
 
     st.markdown("<hr class='sf-divider'>", unsafe_allow_html=True)
 
-    # ═════════════════════════════════════════════════════════════════════════
-    # SECTION 3 — FORMULA STRENGTH METER (Feature 3)
-    # ═════════════════════════════════════════════════════════════════════════
-    st.markdown('<p class="sf-section-title">Formula Strength Profile</p>', unsafe_allow_html=True)
+    # ═══════════════════════════════════════════════════════════════
+    # SECTION 3 — SKIN TYPE COMPARISON  (NEW)
+    # ═══════════════════════════════════════════════════════════════
+    col_comp, col_comp_side = st.columns([1.6, 1])
 
-    # Build Plotly horizontal bar chart — sorted ascending so highest is at top
-    dims   = [d["dimension"] for d in reversed(strength_meter)]
-    scores = [d["score"]     for d in reversed(strength_meter)]
-    colors = [d["color"]     for d in reversed(strength_meter)]
+    with col_comp:
+        st.markdown('<p class="sf-section-title">Skin Type Compatibility</p>',
+                    unsafe_allow_html=True)
+        table_html = render_skin_type_comparison(comparison_rows, skin_type)
+        st.markdown(f'<div class="sf-card" style="padding:16px 20px;">{table_html}</div>',
+                    unsafe_allow_html=True)
+
+    with col_comp_side:
+        st.markdown('<p class="sf-section-title">Best Suited For</p>',
+                    unsafe_allow_html=True)
+
+        best      = comparison_rows[0]
+        second    = comparison_rows[1] if len(comparison_rows) > 1 else None
+
+        best_html  = f'<div style="margin-bottom:16px;">'
+        best_html += f'<div style="font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:#555;margin-bottom:6px;">Primary Match</div>'
+        best_html += f'<div style="font-size:1.3rem;font-weight:700;color:{best["color"]}">✓ {best["skin_type"]} Skin</div>'
+        best_html += f'<div style="font-size:0.82rem;color:#555;margin-top:3px;">{best["score"]} / 100 · {best["verdict"]}</div>'
+        best_html += f'</div>'
+
+        if second and second["score"] >= 62:
+            best_html += f'<div>'
+            best_html += f'<div style="font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:#555;margin-bottom:6px;">Secondary Match</div>'
+            best_html += f'<div style="font-size:1.1rem;font-weight:600;color:{second["color"]}">✓ {second["skin_type"]} Skin</div>'
+            best_html += f'<div style="font-size:0.82rem;color:#555;margin-top:3px;">{second["score"]} / 100</div>'
+            best_html += f'</div>'
+
+        st.markdown(f'<div class="sf-card" style="padding:20px 22px;">{best_html}</div>',
+                    unsafe_allow_html=True)
+
+    st.markdown("<hr class='sf-divider'>", unsafe_allow_html=True)
+
+    # ═══════════════════════════════════════════════════════════════
+    # SECTION 4 — FORMULA STRENGTH PROFILE
+    # Now uses confidence labels; bars show display_score not raw hits
+    # ═══════════════════════════════════════════════════════════════
+    st.markdown('<p class="sf-section-title">Formula Strength Profile</p>',
+                unsafe_allow_html=True)
+
+    dims        = [f'{d["dimension"]}  ·  {d["label"]}' for d in reversed(strength_meter)]
+    disp_scores = [d["display_score"] for d in reversed(strength_meter)]
+    colors      = [d["color"]         for d in reversed(strength_meter)]
 
     fig = go.Figure(go.Bar(
-        x=scores,
+        x=disp_scores,
         y=dims,
         orientation="h",
         marker=dict(color=colors, line=dict(width=0)),
-        text=[f"{s}" for s in scores],
+        text=[d["label"] for d in reversed(strength_meter)],
         textposition="outside",
         textfont=dict(color="#888", size=11),
-        hovertemplate="%{y}: %{x}<extra></extra>",
+        hovertemplate="%{y}: %{text}<extra></extra>",
     ))
     fig.update_layout(
         paper_bgcolor="#1a1d27",
         plot_bgcolor="#1a1d27",
         font=dict(color="#888", family="Inter, sans-serif", size=12),
-        margin=dict(l=0, r=40, t=8, b=8),
+        margin=dict(l=0, r=80, t=8, b=8),
         height=240,
         xaxis=dict(
-            range=[0, 110],
+            range=[0, 130],
             showgrid=False, zeroline=False,
             showticklabels=False, fixedrange=True,
         ),
@@ -707,35 +800,35 @@ if analyse_clicked:
 
     st.markdown("<hr class='sf-divider'>", unsafe_allow_html=True)
 
-    # ═════════════════════════════════════════════════════════════════════════
-    # SECTION 4 — INGREDIENT CARDS  (Feature 4)
-    # ═════════════════════════════════════════════════════════════════════════
+    # ═══════════════════════════════════════════════════════════════
+    # SECTION 5 — INGREDIENT CARDS
+    # ═══════════════════════════════════════════════════════════════
     st.markdown('<p class="sf-section-title">Ingredient Breakdown</p>', unsafe_allow_html=True)
 
     cards_html = '<div class="ic-grid">'
     for m in matched:
         cards_html += render_ingredient_card(m, skin_type)
     cards_html += '</div>'
-
     st.markdown(cards_html, unsafe_allow_html=True)
 
+    # FIX 3: friendlier coverage message — not "Coverage 75%" but ingredient count
     if unrecognised:
         st.caption(
-            f"{len(unrecognised)} ingredient(s) not in knowledge base: "
+            f"{len(matched)} ingredient{'s' if len(matched) != 1 else ''} analysed · "
+            f"{len(unrecognised)} not yet in knowledge base: "
             + ", ".join(u.title() for u in unrecognised)
         )
 
     st.markdown("<hr class='sf-divider'>", unsafe_allow_html=True)
 
-    # ═════════════════════════════════════════════════════════════════════════
-    # SECTION 5 — RECOMMENDATION TABLE  (Feature 5)
-    # ═════════════════════════════════════════════════════════════════════════
+    # ═══════════════════════════════════════════════════════════════
+    # SECTION 6 — RECOMMENDATION TABLE
+    # ═══════════════════════════════════════════════════════════════
     col_rec, col_avoid_col = st.columns(2)
 
     with col_rec:
         st.markdown('<p class="sf-section-title">Suggested Ingredients</p>',
                     unsafe_allow_html=True)
-
         if addition_reasons:
             inner  = '<div class="rec-row" style="border-bottom:1px solid #2a2d3e;padding-bottom:8px;margin-bottom:4px;">'
             inner += '<span style="color:#555;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;">Ingredient</span>'
@@ -748,8 +841,6 @@ if analyse_clicked:
             )
         else:
             inner = '<div style="color:#555;font-size:0.88rem;">Formula already contains all recommended ingredients for this skin type.</div>'
-
-        # Single call — full card including open and close div
         st.markdown(f'<div class="sf-card" style="padding:16px 20px;">{inner}</div>',
                     unsafe_allow_html=True)
 
@@ -757,12 +848,10 @@ if analyse_clicked:
         if avoid_list:
             st.markdown('<p class="sf-section-title">Ingredients to Reconsider</p>',
                         unsafe_allow_html=True)
-
             inner2  = '<div class="rec-row" style="border-bottom:1px solid #2a2d3e;padding-bottom:8px;margin-bottom:4px;">'
             inner2 += '<span style="color:#555;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;">Ingredient</span>'
             inner2 += '<span style="color:#555;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;">Concern</span>'
             inner2 += '</div>'
-
             for av in avoid_list:
                 av_ing = find_ingredient(av.lower(), kb)
                 concern_text = "Not recommended for this skin type"
@@ -777,16 +866,14 @@ if analyse_clicked:
                     f'<span class="rec-why">{concern_text}</span>'
                     f'</div>'
                 )
-
-            # Single call — full card
             st.markdown(f'<div class="sf-card" style="padding:16px 20px;">{inner2}</div>',
                         unsafe_allow_html=True)
 
     st.markdown("<hr class='sf-divider'>", unsafe_allow_html=True)
 
-    # ═════════════════════════════════════════════════════════════════════════
-    # SECTION 6 — BENEFITS / CONCERNS TAGS + FORMULA SUMMARY
-    # ═════════════════════════════════════════════════════════════════════════
+    # ═══════════════════════════════════════════════════════════════
+    # SECTION 7 — BENEFITS / CONCERNS + SUMMARY
+    # ═══════════════════════════════════════════════════════════════
     col_ben, col_con = st.columns(2)
 
     with col_ben:
@@ -807,14 +894,17 @@ if analyse_clicked:
     st.markdown('<p class="sf-section-title">Formula Summary</p>', unsafe_allow_html=True)
     st.markdown(f'<div class="summary-box">{summary}</div>', unsafe_allow_html=True)
 
-    # Score explanation — collapsed by default, available for recruiters / curious users
+    # ═══════════════════════════════════════════════════════════════
+    # SCORING METHODOLOGY — Coverage lives here now, not in top badges
+    # ═══════════════════════════════════════════════════════════════
     with st.expander("Scoring Methodology"):
         st.markdown(f"""
 | Component | Value | Method |
 |-----------|-------|--------|
-| Compatibility Score | {compat_score} / 100 | Average {skin_type.lower()} skin score (0–10) across {len(matched)} recognised ingredients, scaled ×10 then ×0.95 realism factor |
-| Overall Formula Score | {overall_score} / 100 | Same method averaged across all five skin-type columns |
+| Compatibility Score | {compat_score} / 100 | Average {skin_type.lower()} skin score (0–10) across {len(matched)} recognised ingredients, scaled ×10 then ×0.90 realism factor |
+| Balanced Formula Score | {overall_score} / 100 | Same method averaged across all five skin-type columns |
 | Risk Level | {risk_label} | High if ≥3 high-risk ingredients; Moderate if ≥1; Low otherwise |
+| Knowledge Base Coverage | {coverage}% | {compat['coverage']['recognized_ingredients']} of {compat['coverage']['total_ingredients']} ingredients matched to knowledge base |
 
 > Scores reflect ingredient-level data only. Concentration, pH, and manufacturing are not accounted for.
         """)

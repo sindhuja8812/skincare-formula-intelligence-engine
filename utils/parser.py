@@ -1,115 +1,152 @@
-
 import re
 from typing import List
 
 # ---------------------------------------------------------------------------
-# Synonym mapping — maps common aliases to canonical knowledge base names
+# Synonym mapping — maps common aliases to EXACT knowledge-base names
+# (after load_knowledge_base lowercases them)
+#
+# Rule: every value on the right must exactly match a lowercased CSV ingredient.
 # ---------------------------------------------------------------------------
-SYNONYMS: dict[str, str] ={
-    # Water
-    "aqua": "water",
+SYNONYMS: dict[str, str] = {
 
-    # Hyaluronic Acid
-    "sodium hyaluronate": "hyaluronic acid",
-    "hydrolyzed hyaluronic acid": "hyaluronic acid",
+    # ── Water ────────────────────────────────────────────────────────────────
+    "aqua":                             "water",
 
-    # Aloe
-    "aloe barbadensis leaf juice": "aloe vera",
-    "aloe barbadensis": "aloe vera",
+    # ── Hyaluronic Acid ──────────────────────────────────────────────────────
+    "sodium hyaluronate":               "hyaluronic acid",
+    "hydrolyzed hyaluronic acid":       "hyaluronic acid",
+    "ha":                               "hyaluronic acid",
 
-    # Vitamin E
-    "tocopheryl acetate": "vitamin e",
-    "tocopherol": "vitamin e",
+    # ── Aloe ─────────────────────────────────────────────────────────────────
+    "aloe barbadensis leaf juice":      "aloe vera",
+    "aloe barbadensis":                 "aloe vera",
+    "aloe":                             "aloe vera",
 
-    # Vitamin C
-    "ascorbic acid": "vitamin c",
-    "sodium ascorbyl phosphate": "vitamin c",
-    "magnesium ascorbyl phosphate": "vitamin c",
-    "ethyl ascorbic acid": "vitamin c",
-    "3-o-ethyl ascorbic acid": "vitamin c",
+    # ── Vitamin E ────────────────────────────────────────────────────────────
+    # CSV name (lowercased): "vitamin e (tocopherol)"
+    "vitamin e":                        "vitamin e (tocopherol)",
+    "tocopherol":                       "vitamin e (tocopherol)",
+    "tocopheryl acetate":               "tocopheryl acetate",   # own CSV row
+    "alpha tocopherol":                 "vitamin e (tocopherol)",
+    "d-alpha tocopherol":               "vitamin e (tocopherol)",
 
-    # Ceramides
-    "ceramide np": "ceramide",
-    "ceramide ap": "ceramide",
-    "ceramide eop": "ceramide",
-    "ceramide ns": "ceramide",
-    "ceramide": "ceramide",
+    # ── Vitamin C ────────────────────────────────────────────────────────────
+    # CSV name (lowercased): "vitamin c (l-ascorbic acid)"
+    "vitamin c":                        "vitamin c (l-ascorbic acid)",
+    "ascorbic acid":                    "vitamin c (l-ascorbic acid)",
+    "l-ascorbic acid":                  "vitamin c (l-ascorbic acid)",
+    "ascorbyl glucoside":               "ascorbyl glucoside",   # own CSV row
+    "sodium ascorbyl phosphate":        "sodium ascorbyl phosphate",
+    "ascorbyl tetraisopalmitate":       "ascorbyl tetraisopalmitate",
+    "ethyl ascorbic acid":              "ethyl ascorbic acid",
+    "3-o-ethyl ascorbic acid":          "ethyl ascorbic acid",
+    "magnesium ascorbyl phosphate":     "vitamin c (l-ascorbic acid)",
 
-    # Centella
-    "centella asiatica": "centella asiatica extract",
-    "cica": "centella asiatica extract",
-    "gotu kola": "centella asiatica extract",
+    # ── Ceramides ────────────────────────────────────────────────────────────
+    # Each ceramide has its own CSV row; "ceramide" alone → ceramide np (most common)
+    "ceramide":                         "ceramide np",
+    "ceramide np":                      "ceramide np",
+    "ceramide ap":                      "ceramide ap",
+    "ceramide eop":                     "ceramide eop",
+    "ceramide ns":                      "ceramide ns",
+    "ceramide as":                      "ceramide as",
 
-    # Green Tea
-    "camellia sinensis leaf extract": "green tea extract",
-    "green tea": "green tea extract",
+    # ── Peptides ─────────────────────────────────────────────────────────────
+    # CSV name: "peptide complex"
+    "peptides":                         "peptide complex",
+    "peptide":                          "peptide complex",
+    "acetyl hexapeptide-8":             "acetyl hexapeptide-3",   # common rename
+    "palmitoyl tripeptide-1":           "palmitoyl tripeptide-5",
+    "palmitoyl tetrapeptide-7":         "peptide complex",
+    "copper peptide":                   "copper peptide",
+    "matrixyl":                         "matrixyl 3000",
 
-    # Tea Tree
-    "melaleuca alternifolia leaf oil": "tea tree oil",
-    "tea tree": "tea tree oil",
+    # ── Centella / Cica ───────────────────────────────────────────────────────
+    "centella asiatica":                "centella asiatica extract",
+    "centella":                         "centella asiatica extract",
+    "cica":                             "centella asiatica extract",
+    "gotu kola":                        "centella asiatica extract",
+    "tiger grass":                      "centella asiatica extract",
 
-    # Beta Glucan
-    "beta-glucan": "beta glucan",
-    "β-glucan": "beta glucan",
+    # ── Green Tea ────────────────────────────────────────────────────────────
+    "camellia sinensis leaf extract":   "green tea extract",
+    "green tea":                        "green tea extract",
+    "egcg":                             "epigallocatechin gallate (egcg)",
 
-    # Niacinamide
-    "nicotinamide": "niacinamide",
+    # ── Tea Tree ─────────────────────────────────────────────────────────────
+    "melaleuca alternifolia leaf oil":  "tea tree oil",
+    "tea tree":                         "tea tree oil",
 
-    # Salicylic Acid
-    "bha": "salicylic acid",
+    # ── Niacinamide ──────────────────────────────────────────────────────────
+    "nicotinamide":                     "niacinamide",
+    "vitamin b3":                       "niacinamide",
 
-    # Retinol Family
-    "retinyl palmitate": "retinol",
-    "retinal": "retinol",
-    "retinaldehyde": "retinol",
+    # ── Beta Glucan ──────────────────────────────────────────────────────────
+    "beta-glucan":                      "beta glucan",
+    "β-glucan":                         "beta glucan",
 
-    # Panthenol
-    "d-panthenol": "panthenol",
-    "provitamin b5": "panthenol",
+    # ── Salicylic Acid ───────────────────────────────────────────────────────
+    "bha":                              "salicylic acid",
+    "beta hydroxy acid":                "salicylic acid",
 
-    # Alpha Arbutin
-    "arbutin": "alpha arbutin",
+    # ── AHAs ─────────────────────────────────────────────────────────────────
+    "aha":                              "glycolic acid",
+    "glycolic":                         "glycolic acid",
+    "lactic":                           "lactic acid",
 
-    # Licorice
-    "glycyrrhiza glabra root extract": "licorice root extract",
+    # ── Retinol / Retinoids ──────────────────────────────────────────────────
+    "retinyl palmitate":                "retinyl palmitate",
+    "retinal":                          "retinal",
+    "retinaldehyde":                    "retinal",
+    "vitamin a":                        "retinol",
 
-    # Zinc PCA
-    "zinc pca": "zinc pca",
+    # ── Panthenol ────────────────────────────────────────────────────────────
+    "d-panthenol":                      "panthenol",
+    "provitamin b5":                    "panthenol",
+    "vitamin b5":                       "panthenol",
 
-    # Shea Butter
-    "butyrospermum parkii butter": "shea butter",
+    # ── Alpha Arbutin ────────────────────────────────────────────────────────
+    "arbutin":                          "alpha arbutin",
 
-    # Squalane
-    "olive squalane": "squalane",
-    "sugarcane squalane": "squalane",
+    # ── Licorice ─────────────────────────────────────────────────────────────
+    "glycyrrhiza glabra root extract":  "licorice root extract",
+    "licorice":                         "licorice root extract",
+    "licorice extract":                 "licorice root extract",
 
-    # Fragrance
-    "parfum": "fragrance",
-    "perfume": "fragrance",
+    # ── Squalane ─────────────────────────────────────────────────────────────
+    "olive squalane":                   "squalane",
+    "sugarcane squalane":               "squalane",
 
-    # Alcohol
-    "alcohol denat.": "alcohol denat",
-    "denatured alcohol": "alcohol denat",
+    # ── Shea Butter ──────────────────────────────────────────────────────────
+    "butyrospermum parkii butter":      "shea butter",
+    "shea":                             "shea butter",
 
-    # Peptides
-    "peptide": "peptides",
-    "acetyl hexapeptide-8": "peptides",
-    "palmitoyl tripeptide-1": "peptides",
-    "palmitoyl tetrapeptide-7": "peptides",
-    "copper peptide": "peptides",
+    # ── Fragrance / Irritants ────────────────────────────────────────────────
+    "parfum":                           "fragrance",
+    "perfume":                          "fragrance",
+
+    # ── Alcohol ──────────────────────────────────────────────────────────────
+    "alcohol denat.":                   "alcohol denat",
+    "denatured alcohol":                "alcohol denat",
+    "sd alcohol":                       "alcohol denat",
+    "isopropyl alcohol":                "alcohol denat",
+
+    # ── Zinc ─────────────────────────────────────────────────────────────────
+    "zinc":                             "zinc pca",
+
+    # ── Hyaluronic Acid forms ────────────────────────────────────────────────
+    "sodium pca":                       "sodium pca",
 }
+
 
 def normalize_ingredient_name(name: str) -> str:
     cleaned = name.lower().strip()
-
-    cleaned = cleaned.replace("-", " ")
-    cleaned = re.sub(r"\s+", " ", cleaned)
-
+    cleaned = re.sub(r"\s+", " ", cleaned)          # collapse internal spaces
     return SYNONYMS.get(cleaned, cleaned)
 
 
 def parse_ingredients(raw_text: str) -> List[str]:
-    # Split on comma, semicolon, or newline
+    """Split on comma / semicolon / newline, normalize, deduplicate."""
     tokens = re.split(r"[,;\n]+", raw_text)
 
     seen: set[str] = set()

@@ -44,96 +44,54 @@ def generate_formula_summary(
     top_strengths = strengths[:3]
     top_concerns  = weaknesses[:3]
 
-    # Opening sentence — score-dependent
+    # Opening bullet — score-dependent
     if band == "excellent":
-        opening = (
-            f"This formulation appears highly compatible with {skin_label} skin. "
-            f"The ingredient profile is well-suited to this skin type, "
-            f"with a compatibility score of {compatibility_score}/100."
-        )
+        opening = f"Excellent match for {skin_label} skin (score: {compatibility_score}/100)"
     elif band == "very_good":
-        opening = (
-            f"This formulation is a strong match for {skin_label} skin, "
-            f"achieving a compatibility score of {compatibility_score}/100. "
-            f"Most ingredients are well-tolerated for this skin type."
-        )
+        opening = f"Strong match for {skin_label} skin (score: {compatibility_score}/100)"
     elif band == "good":
-        opening = (
-            f"This formulation shows reasonable compatibility with {skin_label} skin "
-            f"(score: {compatibility_score}/100). "
-            f"The formula performs adequately but has room for improvement."
-        )
+        opening = f"Good compatibility with {skin_label} skin (score: {compatibility_score}/100)"
     elif band == "caution":
-        opening = (
-            f"This formulation has limited compatibility with {skin_label} skin "
-            f"(score: {compatibility_score}/100). "
-            f"Several ingredients may not suit this skin type and warrant review."
-        )
+        opening = f"Limited compatibility with {skin_label} skin (score: {compatibility_score}/100)"
     else:
-        opening = (
-            f"This formulation is not well-suited for {skin_label} skin "
-            f"(score: {compatibility_score}/100). "
-            f"A significant number of ingredients are poorly tolerated by this skin type."
-        )
+        opening = f"Poor compatibility with {skin_label} skin (score: {compatibility_score}/100)"
 
-    # Benefits sentence
+    # Risk profile bullet
+    if risk_level == "Low":
+        risk_bullet = "Low irritation risk"
+    elif risk_level == "Moderate":
+        risk_bullet = "Moderate irritation risk — patch testing recommended"
+    else:
+        risk_bullet = "High irritation risk — caution advised"
+
+    # Benefits bullet
     if benefits:
-        benefit_list = ", ".join(benefits[:4])
-        benefit_sentence = f"Key formula benefits include {benefit_list}."
+        benefit_list = ", ".join(benefits[:3])
+        benefits_bullet = f"Key benefits: {benefit_list}"
     else:
-        benefit_sentence = "No notable formula benefits were detected."
+        benefits_bullet = "No notable benefits detected"
 
-    # Strengths sentence
+    # Strengths bullet
     if top_strengths:
         strength_list = ", ".join(top_strengths)
-        strength_sentence = (
-            f"Standout ingredients contributing to compatibility include "
-            f"{strength_list}."
-        )
+        strengths_bullet = f"Standout ingredients: {strength_list}"
     else:
-        strength_sentence = ""
+        strengths_bullet = None
 
-    # Risk / concerns sentence
-    if risk_level == "Low" and not concerns:
-        risk_sentence = "No major irritants were detected and the overall risk profile is low."
-    elif risk_level == "Low" and concerns:
-        concern_list = ", ".join(concerns[:3])
-        risk_sentence = (
-            f"The overall risk level is low, though minor concerns "
-            f"({concern_list}) were noted."
-        )
-    elif risk_level == "Moderate":
-        if top_concerns:
-            concern_list = ", ".join(top_concerns)
-            risk_sentence = (
-                f"The formula carries a moderate risk profile. "
-                f"Ingredients of concern include {concern_list}. "
-                f"Patch testing is advisable."
-            )
-        else:
-            risk_sentence = (
-                "The formula carries a moderate risk profile. Patch testing is advisable."
-            )
-    else:  # High
-        if top_concerns:
-            concern_list = ", ".join(top_concerns)
-            risk_sentence = (
-                f"Multiple ingredients associated with irritation risk were identified, "
-                f"including {concern_list}. "
-                f"Users with {skin_label} skin may experience redness, dryness, or irritation."
-            )
-        else:
-            risk_sentence = (
-                f"The formula carries a high risk profile. "
-                f"Users with {skin_label} skin may experience adverse reactions."
-            )
+    # Build bullet list
+    bullets = [
+        f"• {opening}",
+        f"• {risk_bullet}",
+        f"• {benefits_bullet}",
+    ]
+    
+    if strengths_bullet:
+        bullets.append(f"• {strengths_bullet}")
+    
+    if not concerns:
+        bullets.append("• No major concerns detected")
 
-    parts = [opening, benefit_sentence]
-    if strength_sentence:
-        parts.append(strength_sentence)
-    parts.append(risk_sentence)
-
-    return " ".join(parts)
+    return "\n".join(bullets)
 
 
 def get_final_recommendation(score: float) -> str:

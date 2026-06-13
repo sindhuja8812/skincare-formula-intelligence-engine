@@ -1,0 +1,22 @@
+SKINCARE FORMULA INTELLIGENCE ENGINE — COVERAGE REPORT
+Generated : 2026-06-13 14:05:14
+======================================================================
+
+........................................................................ [ 45%]
+........................................................................ [ 91%]
+..............                                                           [100%]
+=============================== tests coverage ================================
+_______________ coverage: platform win32, python 3.14.3-final-0 _______________
+
+Name                         Stmts   Miss  Cover   Missing
+----------------------------------------------------------
+utils\benefits.py               22      0   100%
+utils\knowledge_loader.py       18      0   100%
+utils\parser.py                 17      0   100%
+utils\recommendations.py        43      1    98%   147
+utils\risk_analysis.py          34      0   100%
+utils\scorer.py                 49      2    96%   43, 82
+utils\summary_generator.py      54      0   100%
+----------------------------------------------------------
+TOTAL                          237      3    99%
+158 passed in 0.90s

@@ -588,7 +588,7 @@ with col_input:
         label="ingredients",
         label_visibility="collapsed",
         height=130,
-        placeholder="Ceramide NP\nPanthenol\nAllantoin\nCentella Asiatica\nNiacinamide",
+        placeholder="Enter or Paste the list of ingredients in your formula, separated by commas. For best results, use INCI names (e.g., 'Aqua, Glycerin, Niacinamide').",
     )
 
 with col_right:

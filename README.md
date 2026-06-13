@@ -6,9 +6,10 @@ A rule-based ingredient intelligence system that analyses skincare formulations 
 
 ## Demo Video
 
-https://github.com/sindhuja8812/skincare-formula-intelligence-engine/assets/Skincare_Formula_Intelligence_Engine_demo.mp4
+A sample demo:
 
-> **Note:** After pushing to GitHub, drag the `.mp4` file from `assets/` into any GitHub Issue comment box, copy the generated URL, and replace the link above with it. GitHub will render it as an embedded playable video in the README.
+https://github.com/user-attachments/assets/ae06b746-8535-4975-891a-b607773fbcad
+
 
 ---
 

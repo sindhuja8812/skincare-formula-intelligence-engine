@@ -25,15 +25,25 @@ def extract_benefits(matched_ingredients: List[dict]) -> List[str]:
     return [benefit for benefit, _ in counts.most_common()]
 
 
-def extract_concerns(matched_ingredients: List[dict]) -> List[str]:
+def extract_concerns(matched_ingredients: List[dict], skin_type: str = "normal") -> List[str]:
+    skin_risk_col = f"{skin_type.lower()}_risk"
+    
     values = _split_pipe_column(matched_ingredients, "concerns")
     counts = Counter(values)
 
     n = len(matched_ingredients)
     threshold = _CONCERN_MIN_COUNT if n >= 3 else 1
 
+    # Only surface concerns backed by a Moderate or High skin-specific risk rating
+    risky_ingredients = [
+        ing for ing in matched_ingredients
+        if ing.get(skin_risk_col, ing.get("risk_level", "Low")) in {"High", "Moderate"}
+    ]
+    risky_values = _split_pipe_column(risky_ingredients, "concerns")
+    risky_counts = Counter(risky_values)
+
     return [
         concern
         for concern, count in counts.most_common()
-        if count >= threshold
+        if count >= threshold and risky_counts.get(concern, 0) >= 1
     ]

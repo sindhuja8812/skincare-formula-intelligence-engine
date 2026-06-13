@@ -64,6 +64,9 @@ def _apply_realism(raw_score: float) -> float:
     return round(min(adjusted, MAX_SCORE), 1)
 
 
+# Categories that are functional but don't affect skin compatibility
+_SCORE_EXCLUDED_CATEGORIES = {"Excipient", "Preservative"}
+
 def calculate_skin_match_score(
     matched_ingredients: List[dict],
     skin_type: str,
@@ -75,15 +78,25 @@ def calculate_skin_match_score(
     if not matched_ingredients:
         raise ValueError("matched_ingredients must not be empty.")
 
-    column = SKIN_TYPE_COLUMNS[skin_type]                           # e.g. "sensitive_score"
-    scores = [ing[column] for ing in matched_ingredients if column in ing]
+    column = SKIN_TYPE_COLUMNS[skin_type]
+
+    # Score only active/functional ingredients, not excipients/preservatives
+    scoreable = [
+        ing for ing in matched_ingredients
+        if ing.get("category", "") not in _SCORE_EXCLUDED_CATEGORIES
+    ]
+
+    # Fall back to all ingredients if nothing passes the filter
+    score_source = scoreable if scoreable else matched_ingredients
+
+    scores = [ing[column] for ing in score_source if column in ing]
 
     if not scores:
         raise ValueError(f"No '{column}' data found in matched ingredients.")
 
     total     = total_ingredients if total_ingredients is not None else len(matched_ingredients)
-    raw_score = (sum(scores) / len(scores)) * 10                    # average 0–10 → 0–100
-    score     = _apply_realism(raw_score)                           # apply realism cap
+    raw_score = (sum(scores) / len(scores)) * 10
+    score     = _apply_realism(raw_score)
 
     return {
         "score":       score,
@@ -92,7 +105,6 @@ def calculate_skin_match_score(
         "coverage":    calculate_coverage(matched_ingredients, total),
     }
 
-
 def calculate_overall_formula_score(
     matched_ingredients: List[dict],
     total_ingredients: int | None = None,
@@ -100,18 +112,24 @@ def calculate_overall_formula_score(
     if not matched_ingredients:
         raise ValueError("matched_ingredients must not be empty.")
 
+    scoreable = [
+        ing for ing in matched_ingredients
+        if ing.get("category", "") not in _SCORE_EXCLUDED_CATEGORIES
+    ]
+    score_source = scoreable if scoreable else matched_ingredients
+
     all_values: List[float] = []
-    for ing in matched_ingredients:
+    for ing in score_source:
         for col in ALL_SCORE_COLUMNS:
             if col in ing:
-                all_values.append(ing[col])                         # collect all skin scores
+                all_values.append(ing[col])
 
     if not all_values:
         raise ValueError("No score columns found in matched ingredients.")
 
     total     = total_ingredients if total_ingredients is not None else len(matched_ingredients)
-    raw_score = (sum(all_values) / len(all_values)) * 10            # average → 0–100
-    score     = _apply_realism(raw_score)                           # realism cap
+    raw_score = (sum(all_values) / len(all_values)) * 10
+    score     = _apply_realism(raw_score)
 
     return {
         "score":       score,

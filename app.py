@@ -660,7 +660,7 @@ if analyse_clicked:
     risk_label = risk["overall_risk"]
 
     benefits   = extract_benefits(matched)
-    concerns   = extract_concerns(matched)
+    concerns = extract_concerns(matched, skin_type=skin_type.lower())
 
     additions  = generate_addition_recommendations(skin_type.lower(), matched)
     avoid_list = generate_avoid_recommendations(skin_type.lower(), matched)
@@ -906,7 +906,7 @@ if analyse_clicked:
 |-----------|-------|--------|
 | Compatibility Score | {compat_score} / 100 | Average {skin_type.lower()} skin score (0–10) across {len(matched)} recognised ingredients, scaled ×10 then ×0.90 realism factor |
 | Balanced Formula Score | {overall_score} / 100 | Same method averaged across all five skin-type columns |
-| Risk Level | {risk_label} | High if ≥3 high-risk ingredients; Moderate if ≥1; Low otherwise |
+| Risk Level | {risk_label} | High if ≥2 high-risk ingredients, or 1 high + ≥2 moderate; Moderate if any single concern ingredient; Low otherwise |
 | Knowledge Base Coverage | {coverage}% | {compat['coverage']['recognized_ingredients']} of {compat['coverage']['total_ingredients']} ingredients matched to knowledge base |
 
 > Scores reflect ingredient-level data only. Concentration, pH, and manufacturing are not accounted for.
